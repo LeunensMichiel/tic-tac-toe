@@ -2,31 +2,32 @@ import { useCallback, useState } from 'react';
 import { FC } from 'react';
 import cn from 'classnames';
 
+import { useGameContext } from '../../context/game/useGameContext';
+
 import styles from './GridItem.module.scss';
 
 type GridItemProps = {
   index: number;
 };
 export const GridItem: FC<GridItemProps> = ({ index }) => {
-  const [isPickedBy, setIsPickedBy] = useState('');
+  const { currentUser, play } = useGameContext();
+  const [currentUserString, setCurrentUserString] = useState('');
   const handleClick = useCallback(() => {
-    if (isPickedBy) {
+    if (currentUserString) {
       return;
     }
-    setIsPickedBy('❌');
-    console.log(`Picked ${index}`);
-    // TODO: logic for picking which is who
-    // setIsPickedBy('🟡');
-  }, [index, isPickedBy]);
+    setCurrentUserString(currentUser === 'X' ? '❌' : '🟡');
+    play();
+  }, [currentUser, currentUserString, play]);
 
   return (
     <button
       className={cn(styles.root, {
-        [styles.isPicked]: !!isPickedBy,
+        [styles.isPicked]: !!currentUserString,
       })}
       onClick={handleClick}
     >
-      {isPickedBy}
+      {currentUserString}
     </button>
   );
 };
