@@ -1,9 +1,12 @@
 import { createContext, FC, useMemo, useReducer } from 'react';
 
-type User = 'X' | 'O';
+export type User = 'X' | 'O';
+export type Board = Array<Array<string>>;
 
 type GameState = {
   currentUser: User;
+  board: Board;
+  winner?: User | 'Draw';
   setCurrentUser: (user: User) => void;
   play: () => void;
 };
@@ -14,6 +17,12 @@ type Action = {
 
 const INITIAL_GAME_STATE: GameState = {
   currentUser: 'X',
+  winner: undefined,
+  board: [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', ''],
+  ],
 } as GameState;
 
 export const GameContext = createContext<GameState>(INITIAL_GAME_STATE);
