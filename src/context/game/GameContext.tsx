@@ -37,12 +37,12 @@ const gameReducer = (state: GameState, action: Action): GameState => {
       state.board[action.payload!.row][action.payload!.col] =
         state.currentPlayer;
 
-      const gameIsDraw = isDraw(state.board);
       const gameIsOver = isGameOver(state.board);
-      const winner: Winner | undefined = gameIsDraw
-        ? 'Draw'
-        : gameIsOver
+      const gameIsDraw = isDraw(state.board);
+      const winner: Winner | undefined = gameIsOver
         ? state.currentPlayer
+        : gameIsDraw
+        ? 'Draw'
         : undefined;
 
       return {
