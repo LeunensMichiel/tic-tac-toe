@@ -9,10 +9,12 @@ function App() {
     winner === 'Draw' ? `Draw! No winners...` : `And the winner is: ${winner}!`;
   return (
     <div className="app">
-      <h1>Tic Tac Toe</h1>
-      <Grid />
-      {winner && <span className="winner">{winnerText}</span>}
-      {winner && <button className="replay-button">Replay</button>}
+      <div className="app__inner">
+        <h1>Tic Tac Toe</h1>
+        <Grid />
+        {winner && <span className="winner">{winnerText}</span>}
+        {winner && <button className="replay-button">Replay</button>}
+      </div>
     </div>
   );
 }

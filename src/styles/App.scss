@@ -1,14 +1,30 @@
 .app {
   text-align: center;
   width: 100%;
-  max-width: 1140px;
-  margin: 0 auto;
-
+  height: 100vh;
+  background-color: #ffbb99;
+  background-image: radial-gradient(
+      at 35% 44%,
+      hsla(169, 75%, 76%, 1) 0px,
+      transparent 50%
+    ),
+    radial-gradient(at 14% 52%, hsla(201, 65%, 65%, 1) 0px, transparent 50%),
+    radial-gradient(at 84% 28%, hsla(197, 72%, 66%, 1) 0px, transparent 50%),
+    radial-gradient(at 91% 99%, hsla(212, 93%, 67%, 1) 0px, transparent 50%),
+    radial-gradient(at 75% 83%, hsla(9, 84%, 69%, 1) 0px, transparent 50%),
+    radial-gradient(at 42% 40%, hsla(124, 92%, 74%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 69%, hsla(194, 92%, 72%, 1) 0px, transparent 50%);
   h1 {
     font-weight: 900;
-    font-size: 3rem;
-    margin-top: 3rem;
+    font-size: 3.5rem;
+    margin-top: 0;
+    padding-top: 3rem;
   }
+}
+
+.app__inner {
+  max-width: 1140px;
+  margin: 0 auto;
 }
 
 .winner {
