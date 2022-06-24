@@ -11,10 +11,11 @@ type GameState = {
   board: Board;
   winner?: Winner;
   play: (row: number, col: number) => void;
+  replay: () => void;
 };
 
 type Action = {
-  type: 'PLAY';
+  type: 'PLAY' | 'REPLAY';
   payload?: { row: number; col: number };
 };
 
@@ -50,6 +51,16 @@ const gameReducer = (state: GameState, action: Action): GameState => {
         currentPlayer: state.currentPlayer === '🟡' ? '❌' : '🟡',
       };
     }
+    case 'REPLAY': {
+      return {
+        ...INITIAL_GAME_STATE,
+        board: [
+          ['', '', ''],
+          ['', '', ''],
+          ['', '', ''],
+        ],
+      };
+    }
     default: {
       return {
         ...state,
@@ -68,11 +79,13 @@ export const GameContextProvider: FC<GameContextProviderProps> = ({
   const [state, dispatch] = useReducer(gameReducer, INITIAL_GAME_STATE);
   const play = (row: number, col: number) =>
     dispatch({ type: 'PLAY', payload: { row, col } });
+  const replay = () => dispatch({ type: 'REPLAY' });
 
   const value = useMemo(
     () => ({
       ...state,
       play,
+      replay,
     }),
     [state]
   );
