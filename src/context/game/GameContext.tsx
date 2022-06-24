@@ -1,13 +1,15 @@
 import { createContext, FC, useMemo, useReducer } from 'react';
 
-export type Player = 'X' | 'O';
+import { isDraw, isGameOver } from './logic';
+
+type Player = '❌' | '🟡';
+type Winner = Player | 'Draw';
 export type Board = Array<Array<string>>;
 
 type GameState = {
   currentPlayer: Player;
-  setCurrentPlayer: (player: Player) => void;
   board: Board;
-  winner?: Player | 'Draw';
+  winner?: Winner;
   play: (row: number, col: number) => void;
 };
 
@@ -17,7 +19,7 @@ type Action = {
 };
 
 const INITIAL_GAME_STATE: GameState = {
-  currentPlayer: 'X',
+  currentPlayer: '❌',
   winner: undefined,
   board: [
     ['', '', ''],
@@ -32,10 +34,20 @@ const gameReducer = (state: GameState, action: Action): GameState => {
   switch (action.type) {
     case 'PLAY': {
       state.board[action.payload!.row][action.payload!.col] =
-        state.currentPlayer === 'X' ? '❌' : '🟡';
+        state.currentPlayer;
+
+      const gameIsDraw = isDraw(state.board);
+      const gameIsOver = isGameOver(state.board);
+      const winner: Winner | undefined = gameIsDraw
+        ? 'Draw'
+        : gameIsOver
+        ? state.currentPlayer
+        : undefined;
+
       return {
         ...state,
-        currentPlayer: state.currentPlayer === 'O' ? 'X' : 'O',
+        winner,
+        currentPlayer: state.currentPlayer === '🟡' ? '❌' : '🟡',
       };
     }
     default: {
