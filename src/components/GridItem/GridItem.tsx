@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { FC } from 'react';
 import cn from 'classnames';
 
@@ -6,28 +6,32 @@ import { useGameContext } from '../../context/game/useGameContext';
 
 import styles from './GridItem.module.scss';
 
+const GRID_WIDTH = 3;
 type GridItemProps = {
   index: number;
 };
+
 export const GridItem: FC<GridItemProps> = ({ index }) => {
-  const { currentUser, play } = useGameContext();
-  const [currentUserString, setCurrentUserString] = useState('');
+  const { play, board } = useGameContext();
+  const row = useMemo(() => Math.floor(index / GRID_WIDTH), [index]);
+  const col = useMemo(() => index % GRID_WIDTH, [index]);
+  const boardCell = board[row][col];
+
   const handleClick = useCallback(() => {
-    if (currentUserString) {
+    if (boardCell) {
       return;
     }
-    setCurrentUserString(currentUser === 'X' ? '❌' : '🟡');
-    play();
-  }, [currentUser, currentUserString, play]);
+    play(row, col);
+  }, [boardCell, col, play, row]);
 
   return (
     <button
       className={cn(styles.root, {
-        [styles.isPicked]: !!currentUserString,
+        [styles.isPicked]: !!boardCell,
       })}
       onClick={handleClick}
     >
-      {currentUserString}
+      {boardCell}
     </button>
   );
 };

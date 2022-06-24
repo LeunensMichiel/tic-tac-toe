@@ -1,22 +1,23 @@
 import { createContext, FC, useMemo, useReducer } from 'react';
 
-export type User = 'X' | 'O';
+export type Player = 'X' | 'O';
 export type Board = Array<Array<string>>;
 
 type GameState = {
-  currentUser: User;
+  currentPlayer: Player;
+  setCurrentPlayer: (player: Player) => void;
   board: Board;
-  winner?: User | 'Draw';
-  setCurrentUser: (user: User) => void;
-  play: () => void;
+  winner?: Player | 'Draw';
+  play: (row: number, col: number) => void;
 };
 
 type Action = {
   type: 'PLAY';
+  payload?: { row: number; col: number };
 };
 
 const INITIAL_GAME_STATE: GameState = {
-  currentUser: 'X',
+  currentPlayer: 'X',
   winner: undefined,
   board: [
     ['', '', ''],
@@ -30,9 +31,11 @@ export const GameContext = createContext<GameState>(INITIAL_GAME_STATE);
 const gameReducer = (state: GameState, action: Action): GameState => {
   switch (action.type) {
     case 'PLAY': {
+      state.board[action.payload!.row][action.payload!.col] =
+        state.currentPlayer === 'X' ? '❌' : '🟡';
       return {
         ...state,
-        currentUser: state.currentUser === 'O' ? 'X' : 'O',
+        currentPlayer: state.currentPlayer === 'O' ? 'X' : 'O',
       };
     }
     default: {
@@ -51,7 +54,8 @@ export const GameContextProvider: FC<GameContextProviderProps> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(gameReducer, INITIAL_GAME_STATE);
-  const play = () => dispatch({ type: 'PLAY' });
+  const play = (row: number, col: number) =>
+    dispatch({ type: 'PLAY', payload: { row, col } });
 
   const value = useMemo(
     () => ({
