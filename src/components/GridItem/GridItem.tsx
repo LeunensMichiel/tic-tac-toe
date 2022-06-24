@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { FC } from 'react';
 import cn from 'classnames';
 
@@ -13,8 +13,8 @@ type GridItemProps = {
 
 export const GridItem: FC<GridItemProps> = ({ index }) => {
   const { play, board, winner } = useGameContext();
-  const row = useMemo(() => Math.floor(index / GRID_WIDTH), [index]);
-  const col = useMemo(() => index % GRID_WIDTH, [index]);
+  const row = Math.floor(index / GRID_WIDTH);
+  const col = index % GRID_WIDTH;
   const boardCell = board[row][col];
 
   const handleClick = useCallback(() => {
