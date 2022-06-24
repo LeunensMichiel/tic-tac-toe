@@ -1,7 +1,9 @@
 .app {
   text-align: center;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
+  padding: 5rem 0;
   background-color: #ffbb99;
   background-image: radial-gradient(
       at 35% 44%,
@@ -18,7 +20,6 @@
     font-weight: 900;
     font-size: 3.5rem;
     margin-top: 0;
-    padding-top: 3rem;
   }
 }
 
