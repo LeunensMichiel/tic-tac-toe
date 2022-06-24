@@ -28,3 +28,17 @@ yarn build && yarn preview
 ```
 
 > App will be running on http://localhost:4173/
+
+## Other commands
+
+Lint code
+
+```bash
+yarn lint:fix
+```
+
+Prettify code
+
+```bash
+yarn format
+```
